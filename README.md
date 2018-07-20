@@ -1,6 +1,6 @@
 Openshift Fluentd Kafka customized images 
 
-Since Redhat don't put kafka plugin into OpenShift 3.9 fluentd ,I made the customized images as the request from client
+Since Redhat OpenShift 3.9 fluentd without kafka plugin ,I made the customized images as the request from client
 
 The directory structure
 ```
@@ -43,7 +43,8 @@ tree
 docker build -t registry.access.redhat.com/openshift3/logging-fluentd:kafka
 ```
 
-The new images can be deployed with ds once the customized fluentd images had been finished
+The new images can be deployed with ds logging-fluentd once the customized fluentd images had been built
+
 oc edit ds logging-fluentd
 
 Add a new line ,then add the new items with key:value into fluentd configmap
