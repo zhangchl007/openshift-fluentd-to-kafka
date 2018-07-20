@@ -1,6 +1,6 @@
----
-Openshift-Fluentd-to-Kafka
+-
 Openshift Fluentd Kafka customized images 
+
 since openshift 3.9 flunetd still install kafka plugin , I customized the images as the request from client
 
 The directory structure
