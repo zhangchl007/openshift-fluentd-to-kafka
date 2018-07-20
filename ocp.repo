@@ -1,0 +1,5 @@
+[ocp]
+name=OCP
+baseurl=http://192.168.233.134/repo/
+enabled=1
+gpgcheck=0
