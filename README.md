@@ -1,3 +1,4 @@
+---
 Openshift-Fluentd-to-Kafka
 Openshift Fluentd Kafka customized images 
 since openshift 3.9 flunetd still install kafka plugin , I customized the images as the request from client
@@ -49,37 +50,45 @@ Add a new line ,then add the new items with key:value into fluentd configmap
 key:input-kafka-audilog.conf
 
 value:
+```
+<source>
+  @type tail
+  path /var/log/audit-ocp.log
+  pos_file /var/log/auditlog.pos
+  time_format %Y-%m-%dT%H:%M:%S.%N%Z
+  tag auditlog.requests
+  format json
+</source>
 
+<filter auditlog**>
+  @type record_transformer
+  enable_ruby
+  <record>
+    @timestamp ${record['@timestamp'].nil? ? Time.at(time).getutc.to_datetime.rfc3339(6) : Time.parse(record['@timestamp']).getutc.to_datetime.rfc3339(6)}
+    auditlog.hostname ${(begin; File.open('/etc/docker-hostname') { |f| f.readline }.rstrip; rescue; end)}
+  </record>
+</filter>
 
-@type tail 
-path /var/log/audit-ocp.log 
-pos_file /var/log/auditlog.pos 
-time_format %Y-%m-%dT%H:%M:%S.%N%Z 
-tag auditlog.requests 
-format json 
+  <filter  auditlog**>
+  type record_transformer
+  enable_ruby
+  <record>
+     partition_key      partition
+  </record>
+</filter>
 
-@type record_transformer 
-enable_ruby 
+#---output---
+<match auditlog**>
+   type kafka
+   brokers  10.150.1.90:9092,10.150.1.91:9092,10.150.1.92:9092
+   default_topic  my-test
+   output_data_type json
+   output_include_tag  false
+   output_include_time flase
+   <buffer topic>
+    flush_interval 5s
+  </buffer>
+   max_send_retries   3         
+</match>
 
-@timestamp record[′@timestamp′].nil??Time.at(time).getutc.todatetime.rfc3339(6):Time.parse(record[′@timestamp′]).getutc.todatetime.rfc3339(6)auditlog.hostname{(begin; File.open('/etc/docker-hostname') { |f| f.readline }.rstrip; rescue; end)} 
-
-
-
-type record_transformer 
-enable_ruby 
-
-partition_key {#partition} 
-
-
----output---
-
-type kafka 
-brokers {#kafka1:9092,kafka2:9092,kafka3:9092} 
-default_topic my-test 
-output_data_type json 
-output_include_tag false 
-output_include_time flase 
-
-flush_interval 5s 
-
-max_send_retries 3 
+```
