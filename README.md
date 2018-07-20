@@ -47,6 +47,7 @@ The new images can be deployed with ds once the customized fluentd images had be
 oc edit ds logging-fluentd
 
 Add a new line ,then add the new items with key:value into fluentd configmap
+
 @include configs.d/user/input-kafka-auditlog.conf
 
 key:input-kafka-audilog.conf
