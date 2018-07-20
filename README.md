@@ -4,6 +4,7 @@ Openshift Fluentd Kafka customized images
 since openshift 3.9 flunetd still install kafka plugin , I customized the images as the request from client
 
 The directory structure
+```
 tree
 . 
 ├── Dockerfile 
@@ -39,7 +40,9 @@ tree
 │ └── system.conf 
 └── ruby 
 └── ruby-devel-2.0.0.648-33.el7_4.x86_64.rpm 
+
 docker build -t registry.access.redhat.com/openshift3/logging-fluentd:kafka
+```
 
 The new images can be deployed with ds once the customized fluentd images had been finished
 oc edit ds logging-fluentd
