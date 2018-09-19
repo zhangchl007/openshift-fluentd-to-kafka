@@ -96,9 +96,7 @@ value:
 </match>
 
 ```
-If you want to send all OpenShift logging to Kafka cluster ,just add a few lines to output-es-ops-config.conf/output-es-config.conf 
-
-output-es-ops-retry.conf/output-es-retry.conf as below:
+If you want to send all OpenShift logging to Kafka cluster ,just add a few lines to output-es-ops-config.conf/output-es-config.conf/output-es-ops-retry.conf/output-es-retry.conf as below:
 
 ```
 <store>
