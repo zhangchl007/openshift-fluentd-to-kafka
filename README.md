@@ -96,3 +96,15 @@ value:
 </match>
 
 ```
+If you want to send openshift log to Kafka cluster ,just add a few lines to output-es-ops-config.conf/output-es-config.conf 
+
+output-es-ops-retry.conf/output-es-retry.conf as below:
+
+```
+<store>
+   @type kafka
+   brokers  kafka1:9092,kafka2:9092,kafka3:9092
+   default_topic ocp-log
+</store>
+
+```
